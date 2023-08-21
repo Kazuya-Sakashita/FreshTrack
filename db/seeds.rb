@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+
+20.times do
+    Product.create!(
+      name: "Product #{Faker::Commerce.product_name}",
+      purchase_date: Faker::Date.between(from: 1.year.ago, to: Date.today),
+      expiration_date: Faker::Date.between(from: Date.today, to: 1.year.from_now)
+    )
+  end
