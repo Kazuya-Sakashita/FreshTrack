@@ -3,6 +3,7 @@ class ProductsController < ApplicationController
   
     def index
       @products = Product.all
+      @soon_expiring_count = @products.select { |p| (p.expiration_date - Date.today).to_i < 7 }.count
     end
   
     def show
