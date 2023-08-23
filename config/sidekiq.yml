@@ -4,6 +4,7 @@
   - default
 
 :scheduler:
-  :expiration_reminder_job:
-    cron: '0 21 * * *' # 毎日午後9時に実行
-    class: ReminderMailerWorker
+  :schedule:
+    :expiration_reminder_job:
+      cron: '0 7 * * *' # 毎日7時に実行
+      class: 'ReminderMailerWorker'

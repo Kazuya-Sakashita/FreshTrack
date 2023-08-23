@@ -2,6 +2,8 @@ class ReminderMailerWorker
   include Sidekiq::Worker
 
   def perform
+    Rails.logger.info "ReminderMailerWorker is performing its job!"
+    
     expiring_products = Product.includes(:user).where('expiration_date <= ?', 7.days.from_now)
     
     # ユーザーごとに製品をグループ化します。
