@@ -4,7 +4,7 @@ services:
     image: mysql:8.0
     platform: linux/arm64
     volumes:
-      - db-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql # 修正されたボリューム名
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: myapp
@@ -18,8 +18,32 @@ services:
       - .:/myapp
     ports:
       - "3000:3000"
+    environment:
+      TZ: "Asia/Tokyo" # 日本時間に設定
     depends_on:
       - db
+      - redis
+    stdin_open: true
+    tty: true
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/myapp # 修正されたパス
+    environment:
+      TZ: "Asia/Tokyo" # 日本時間に設定
+    depends_on:
+      - db
+      - redis
+  redis:
+    image: redis
+  mailcatcher:
+    image: schickling/mailcatcher
+    container_name: mailcatcher
+    ports:
+      - '1080:1080'
+      - '1025:1025'
 
 volumes:
-  db-data:
+  mysql-data: # 修正されたボリューム名
+    driver: local

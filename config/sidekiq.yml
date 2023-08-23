@@ -1,0 +1,9 @@
+# config/sidekiq.yml
+---
+:queues:
+  - default
+
+:scheduler:
+  :expiration_reminder_job:
+    cron: '0 21 * * *' # 毎日午後9時に実行
+    class: ReminderMailerWorker

@@ -6,4 +6,6 @@ class Product < ApplicationRecord
   def days_until_expiration
     (expiration_date - Date.today).to_i
   end
+
+  belongs_to :user
 end

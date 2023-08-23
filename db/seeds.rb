@@ -7,10 +7,21 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 
-20.times do
+5.times do |user_number|
+  # ユーザーの作成
+  user = User.create!(
+    email: "user#{user_number + 1}@example.com",
+    password: "password", # Deviseを使用している場合
+    # その他必要な属性
+  )
+
+  # このユーザーに対して10個の製品を作成
+  10.times do |product_number|
     Product.create!(
-      name: "Product #{Faker::Commerce.product_name}",
-      purchase_date: Faker::Date.between(from: 1.year.ago, to: Date.today),
-      expiration_date: Faker::Date.between(from: Date.today, to: 1.year.from_now)
+      name: "Product #{product_number + 1} for User #{user_number + 1}",
+      purchase_date: Date.today - (product_number + 1).days,
+      expiration_date: Date.today + (product_number + 1).months,
+      user_id: user.id
     )
   end
+end
