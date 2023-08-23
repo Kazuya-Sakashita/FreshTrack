@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    attributes:
+      product:
+        name: 商品名
+        purchase_date: 購入日
+        expiration_date: 消費期限

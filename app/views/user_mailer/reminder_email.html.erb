@@ -1,0 +1,7 @@
+
+<h1>Products Expiring Soon!</h1>
+<ul>
+  <% @products.each do |product| %>
+    <li><%= product.name %> (Expiration Date: <%= product.expiration_date %>)</li>
+  <% end %>
+</ul>
