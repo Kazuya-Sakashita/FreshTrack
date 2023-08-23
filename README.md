@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 開発
+コンテナとしては、web db mailcatcher sidekiq redisの４つとしています。
 
-Things you may want to cover:
+## 機能
+現在実装の機能
+-ログイン機能
+-商品登録、編集、削除
+-消費期限7日未満のメール通知
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
