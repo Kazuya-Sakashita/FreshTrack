@@ -1,10 +1,12 @@
 class ProductsController < ApplicationController
-    before_action :authenticate_user!, only: [:index]
+    before_action :authenticate_user!
     before_action :set_product, only: [:show, :edit, :update, :destroy]
+    before_action :authorize_user
   
     def index
-      @products = Product.all.page(params[:page]).per(15)
+      @products = current_user.products.all.page(params[:page]).per(15)
       @soon_expiring_count = @products.select { |p| (p.expiration_date - Date.today).to_i < 7 }.count
+      # flash[:notice] = "プロダクト一覧を表示します。" 
     end
   
     def show
@@ -41,11 +43,24 @@ class ProductsController < ApplicationController
   
     private
       def set_product
-        @product = Product.find(params[:id])
+          @product = Product.find_by(id: params[:id])
+        unless @product
+          flash[:alert] = "プロダクトが見つかりません。"
+          redirect_to root_path # または適切なパスへリダイレクト
+        end
       end
   
       def product_params
         params.require(:product).permit(:name, :purchase_date, :expiration_date, :notify_expiration)
+      end
+
+      def authorize_user
+        return unless @product # これにより、@productがnilの場合にauthorize_userメソッドをスキップします。
+
+        unless @product.user == current_user
+          flash[:alert] = "あなたはこのページにアクセスする権限がありません。"
+          redirect_to root_path # または適切なパスへリダイレクト
+        end
       end
   end
   
