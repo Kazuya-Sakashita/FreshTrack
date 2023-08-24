@@ -4,7 +4,7 @@ class ReminderMailerWorker
   def perform
     Rails.logger.info "ReminderMailerWorker is performing its job!"
     
-    expiring_products = Product.includes(:user).where('expiration_date <= ?', 7.days.from_now)
+    expiring_products = Product.includes(:user).where('expiration_date <= ?', 7.days.from_now).where(notify_expiration: true)
     
     # ユーザーごとに製品をグループ化します。
     products_by_user = expiring_products.group_by(&:user)
