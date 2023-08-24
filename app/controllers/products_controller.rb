@@ -40,6 +40,12 @@ class ProductsController < ApplicationController
       @product.destroy
       redirect_to products_url, notice: 'Product was successfully destroyed.'
     end
+
+    def toggle_notify_expiration
+      product = Product.find(params[:id])
+      product.update(notify_expiration: !product.notify_expiration)
+      redirect_to products_path, notice: '通知設定を更新しました。'
+    end
   
     private
       def set_product
