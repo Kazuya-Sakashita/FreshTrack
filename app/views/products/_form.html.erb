@@ -24,6 +24,11 @@
       <%= form.label :expiration_date %>
       <%= form.date_field :expiration_date %>
     </div>
+
+  <div class="field">
+    <%= form.label :notify_expiration, '通知を受け取りますか？' %>
+    <%= form.check_box :notify_expiration, checked: product.notify_expiration || true %>
+  </div>
   
     <div class="actions">
       <%= form.submit %>

@@ -45,7 +45,7 @@ class ProductsController < ApplicationController
       end
   
       def product_params
-        params.require(:product).permit(:name, :purchase_date, :expiration_date)
+        params.require(:product).permit(:name, :purchase_date, :expiration_date, :notify_expiration)
       end
   end
   
