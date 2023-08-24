@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
     before_action :set_product, only: [:show, :edit, :update, :destroy]
   
     def index
-      @products = Product.all
+      @products = Product.all.page(params[:page]).per(10)
       @soon_expiring_count = @products.select { |p| (p.expiration_date - Date.today).to_i < 7 }.count
     end
   
