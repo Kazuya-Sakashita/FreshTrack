@@ -20,7 +20,9 @@
         <td><%= product.purchase_date %></td>
         <td><%= product.expiration_date %></td>
         <td><%= product.days_until_expiration %>日</td>
-        <td><%= product.notify_expiration ? 'On' : 'Off' %></td>
+        <td>
+          <%= button_to (product.notify_expiration ? 'On' : 'Off'), toggle_notify_expiration_product_path(product), method: :patch, data: { "turbo-method": :patch } %>
+        </td>
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
         <td><%= link_to 'Destroy', product, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}  %></td>
@@ -28,6 +30,8 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @products %>
 
 <br>
 

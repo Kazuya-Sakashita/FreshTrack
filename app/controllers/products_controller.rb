@@ -1,10 +1,12 @@
 class ProductsController < ApplicationController
-    before_action :authenticate_user!, only: [:index]
+    before_action :authenticate_user!
     before_action :set_product, only: [:show, :edit, :update, :destroy]
+    before_action :authorize_user
   
     def index
-      @products = Product.all
+      @products = current_user.products.all.page(params[:page]).per(15)
       @soon_expiring_count = @products.select { |p| (p.expiration_date - Date.today).to_i < 7 }.count
+      # flash[:notice] = "プロダクト一覧を表示します。" 
     end
   
     def show
@@ -15,7 +17,7 @@ class ProductsController < ApplicationController
     end
   
     def create
-      @product = Product.new(product_params)
+      @product = current_user.products.build(product_params) 
       if @product.save
         redirect_to @product, notice: 'Product was successfully created.'
       else
@@ -38,14 +40,33 @@ class ProductsController < ApplicationController
       @product.destroy
       redirect_to products_url, notice: 'Product was successfully destroyed.'
     end
+
+    def toggle_notify_expiration
+      product = Product.find(params[:id])
+      product.update(notify_expiration: !product.notify_expiration)
+      redirect_to products_path, notice: '通知設定を更新しました。'
+    end
   
     private
       def set_product
-        @product = Product.find(params[:id])
+          @product = Product.find_by(id: params[:id])
+        unless @product
+          flash[:alert] = "プロダクトが見つかりません。"
+          redirect_to root_path # または適切なパスへリダイレクト
+        end
       end
   
       def product_params
-        params.require(:product).permit(:name, :purchase_date, :expiration_date, :notify_expiration)
+        params.require(:product).permit(:name, :purchase_date, :expiration_date, :notify_expiration) 
+      end
+
+      def authorize_user
+        return unless @product # これにより、@productがnilの場合にauthorize_userメソッドをスキップします。
+
+        unless @product.user == current_user
+          flash[:alert] = "あなたはこのページにアクセスする権限がありません。"
+          redirect_to root_path # または適切なパスへリダイレクト
+        end
       end
   end
   
