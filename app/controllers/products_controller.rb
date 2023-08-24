@@ -17,7 +17,7 @@ class ProductsController < ApplicationController
     end
   
     def create
-      @product = Product.new(product_params)
+      @product = current_user.products.build(product_params) 
       if @product.save
         redirect_to @product, notice: 'Product was successfully created.'
       else
@@ -57,7 +57,7 @@ class ProductsController < ApplicationController
       end
   
       def product_params
-        params.require(:product).permit(:name, :purchase_date, :expiration_date, :notify_expiration)
+        params.require(:product).permit(:name, :purchase_date, :expiration_date, :notify_expiration) 
       end
 
       def authorize_user
