@@ -14,9 +14,7 @@
   <header>
     <%= render 'shared/header' %>
   </header>
-    <% flash.each do |key, value| %>
-      <div class="flash <%= key %>"><%= value %></div>
-    <% end %>
+    <%= render 'shared/flash_messages' %>
     <%= yield %>
   </body>
 </html>
