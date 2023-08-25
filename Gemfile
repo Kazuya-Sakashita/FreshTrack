@@ -53,7 +53,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'rspec-rails'
   gem 'pry-byebug'
-
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -73,7 +73,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
-  gem 'factory_bot_rails'
 end
 
 
