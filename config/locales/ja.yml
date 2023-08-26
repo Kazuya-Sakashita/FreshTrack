@@ -5,3 +5,15 @@ ja:
         name: 商品名
         purchase_date: 購入日
         expiration_date: 消費期限
+    errors:
+      models:
+        product:
+          attributes:
+            name:
+              blank: "を入力してください"
+            purchase_date:
+              blank: "を入力してください"
+            expiration_date:
+              blank: "を入力してください"
+            notify_expiration:
+              inclusion: "は許可されている値を使用してください"
