@@ -14,6 +14,14 @@ RSpec.describe ProductsController, type: :controller do
       it "正常にレスポンスを返す" do
         expect(response).to be_successful
       end
+
+      it "名前で検索できること" do
+        product1 = FactoryBot.create(:product, name: "Apple", user: user)
+        product2 = FactoryBot.create(:product, name: "Banana", user: user)
+        get :index, params: { q: { name_cont: "Apple" } }
+        expect(assigns(:products)).to contain_exactly(product1)
+        expect(assigns(:products)).not_to include(product2)
+      end
     end
 
     context "ゲストとして" do
