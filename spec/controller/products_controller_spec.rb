@@ -16,8 +16,8 @@ RSpec.describe ProductsController, type: :controller do
       end
 
       it "名前で検索できること" do
-        product1 = FactoryBot.create(:product, name: "Apple", user: user)
-        product2 = FactoryBot.create(:product, name: "Banana", user: user)
+        product1 = create(:product, name: "Apple", user: user)
+        product2 = create(:product, name: "Banana", user: user)
         get :index, params: { q: { name_cont: "Apple" } }
         expect(assigns(:products)).to contain_exactly(product1)
         expect(assigns(:products)).not_to include(product2)
