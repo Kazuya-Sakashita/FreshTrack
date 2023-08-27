@@ -4,9 +4,9 @@ class ProductsController < ApplicationController
     before_action :authorize_user
   
     def index
-      @products = current_user.products.all.page(params[:page]).per(15)
+      @q = current_user.products.ransack(params[:q])
+      @products = @q.result(distinct: true).page(params[:page]).per(15)
       @soon_expiring_count = @products.select { |p| (p.expiration_date - Date.today).to_i < 7 }.count
-      # flash[:notice] = "プロダクト一覧を表示します。" 
     end
   
     def show
