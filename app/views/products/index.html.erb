@@ -5,8 +5,8 @@
     <%= f.label :name_cont, "商品名で検索:" %>
     <%= f.search_field :name_cont %>
     <%= f.submit "検索" %>
-  <% end %>
-
+  <% end %><br>
+<%= button_to 'テスト通知', test_notification_products_path, method: :post %><br>
 <table>
   <thead>
     <tr>
