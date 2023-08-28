@@ -22,6 +22,14 @@ RSpec.describe ProductsController, type: :controller do
         expect(assigns(:products)).to contain_exactly(product1)
         expect(assigns(:products)).not_to include(product2)
       end
+
+      it "破棄された製品が表示されないこと" do
+        discarded_product = create(:product, user: user)
+        discarded_product.discard
+
+        get :index
+        expect(assigns(:products)).not_to include(discarded_product)
+      end
     end
 
     context "ゲストとして" do
@@ -55,6 +63,22 @@ RSpec.describe ProductsController, type: :controller do
       before do
         sign_in user
         get :show, params: { id: "invalid_id" }
+      end
+
+      it "ルートページにリダイレクトすること" do
+        expect(response).to redirect_to(root_path)
+      end
+
+      it "アラートメッセージが表示されること" do
+        expect(flash[:alert]).to eq("プロダクトが見つかりません。")
+      end
+    end
+
+    context "商品が破棄されている場合" do
+      before do
+        sign_in user
+        product.discard
+        get :show, params: { id: product.id }
       end
 
       it "ルートページにリダイレクトすること" do
@@ -110,6 +134,17 @@ RSpec.describe ProductsController, type: :controller do
       it "商品の作成に失敗し、エラーメッセージが表示されること" do
         # テストの実装
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before do
+      sign_in user
+    end
+
+    it '商品を削除した際にdiscarded？がtureになっていること' do
+      delete :destroy, params: { id: product.id }
+      expect(product.reload.discarded?).to be true
     end
   end
 

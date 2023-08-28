@@ -1,4 +1,7 @@
 class Product < ApplicationRecord
+  include Discard::Model
+  default_scope -> { kept }
+
   validates :name, presence: true
   validates :purchase_date, presence: true
   validates :expiration_date, presence: true

@@ -37,8 +37,8 @@ class ProductsController < ApplicationController
     end
   
     def destroy
-      @product.destroy
-      redirect_to products_url, notice: 'Product was successfully destroyed.'
+      @product.discard
+      redirect_to products_url, notice: 'Product was successfully discarded.'
     end
 
     def toggle_notify_expiration
@@ -54,10 +54,15 @@ class ProductsController < ApplicationController
       redirect_to products_path, notice: 'テスト通知を送信しました。'
     end
 
+    def restore
+      @product.undiscard
+      redirect_to products_url, notice: 'Product was successfully restored.'
+    end
+
     private
       def set_product
-          @product = Product.find_by(id: params[:id])
-        unless @product
+        @product = Product.find_by(id: params[:id])
+        unless @product && @product.kept?
           flash[:alert] = "プロダクトが見つかりません。"
           redirect_to root_path # または適切なパスへリダイレクト
         end

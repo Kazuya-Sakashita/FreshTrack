@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_24_025848) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_28_221959) do
   create_table "products", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.date "purchase_date"
@@ -19,6 +19,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_025848) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "notify_expiration", default: true
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_products_on_discarded_at"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 

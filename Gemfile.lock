@@ -100,6 +100,8 @@ GEM
     devise-i18n (1.11.0)
       devise (>= 4.9.0)
     diff-lcs (1.5.0)
+    discard (1.3.0)
+      activerecord (>= 4.2, < 8)
     erubi (1.12.0)
     et-orbi (1.2.7)
       tzinfo
@@ -313,6 +315,7 @@ DEPENDENCIES
   debug
   devise
   devise-i18n
+  discard
   factory_bot_rails
   faker
   importmap-rails
