@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ProductsController, type: :controller do
-  let(:user) { FactoryBot.create(:user) }
-  let(:product) { FactoryBot.create(:product, user: user) }
+  let(:user) { create(:user) }
+  let(:product) { create(:product, user: user) }
   
   describe "GET #index" do
     context "認証されたユーザーとして" do
@@ -142,4 +142,35 @@ RSpec.describe ProductsController, type: :controller do
       end
     end
   end
+
+    describe "POST #test_notification" do
+      context "認証されたユーザーとして" do
+        before do
+          sign_in user
+        end
+
+        it "ReminderMailerWorkerのジョブがキューに追加される" do
+          expect {
+            post :test_notification
+          }.to change(ReminderMailerWorker.jobs, :size).by(1)
+        end
+
+        it "製品ページにリダイレクトする" do
+          post :test_notification
+          expect(response).to redirect_to(products_path)
+        end
+
+        it "フラッシュ通知が表示される" do
+          post :test_notification
+          expect(flash[:notice]).to eq('テスト通知を送信しました。')
+        end
+      end
+
+      context "ゲストとして" do
+        it "ログインページにリダイレクトする" do
+          post :test_notification
+          expect(response).to redirect_to new_user_session_path
+        end
+      end
+    end
 end
