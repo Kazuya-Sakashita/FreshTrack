@@ -8,5 +8,10 @@ class Product < ApplicationRecord
     (expiration_date - Date.today).to_i
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name purchase_date expiration_date] # 検索を許可したい属性のみをこの配列に追加
+  end
+
+
   belongs_to :user
 end

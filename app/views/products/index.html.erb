@@ -1,12 +1,19 @@
 <h1>在庫商品　一覧</h1>
 <h2> 消費期限7日以下の商品数 <%= @soon_expiring_count %> 個</h2>
+
+  <%= search_form_for @q do |f| %>
+    <%= f.label :name_cont, "商品名で検索:" %>
+    <%= f.search_field :name_cont %>
+    <%= f.submit "検索" %>
+  <% end %><br>
+<%= button_to 'テスト通知', test_notification_products_path, method: :post %><br>
 <table>
   <thead>
     <tr>
       <th>ユーザーメールアドレス</th>
-      <th><%= t('activerecord.attributes.product.name') %></th>
-      <th><%= t('activerecord.attributes.product.purchase_date') %></th>
-      <th><%= t('activerecord.attributes.product.expiration_date') %></th>
+      <th><%= sort_link @q, :name, t('activerecord.attributes.product.name') %></th>
+      <th><%= sort_link @q, :purchase_date, t('activerecord.attributes.product.purchase_date') %></th>
+      <th><%= sort_link @q, :expiration_date, t('activerecord.attributes.product.expiration_date') %></th>
       <th>残日数</th>
       <th>通知</th>
       <th colspan="3"></th>
@@ -14,7 +21,7 @@
   </thead>
   <tbody>
     <% @products.each do |product| %>
-        <tr class="<%= 'expiration-soon' if (product.expiration_date - Date.today).to_i < 7 %>">
+      <tr class="<%= 'expiration-soon' if (product.expiration_date - Date.today).to_i < 7 %>">
         <td><%= product.user.email %></td>
         <td><%= product.name %></td>
         <td><%= product.purchase_date %></td>
@@ -26,7 +33,7 @@
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
         <td><%= link_to 'Destroy', product, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}  %></td>
-      </tr>
+    </tr>
     <% end %>
   </tbody>
 </table>
