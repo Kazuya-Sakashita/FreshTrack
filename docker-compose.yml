@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   db:
     image: mysql:8.0
@@ -6,10 +6,10 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql # 修正されたボリューム名
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_PASSWORD: mysecurepassword
       MYSQL_DATABASE: myapp
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      # MYSQL_USER: root
+      MYSQL_PASSWORD: mysecurepassword
 
   web:
     build: .
@@ -41,8 +41,8 @@ services:
     image: schickling/mailcatcher
     container_name: mailcatcher
     ports:
-      - '1080:1080'
-      - '1025:1025'
+      - "1080:1080"
+      - "1025:1025"
 
 volumes:
   mysql-data: # 修正されたボリューム名

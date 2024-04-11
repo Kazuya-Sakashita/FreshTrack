@@ -1,37 +1,36 @@
-<%= form_with(model: product) do |form| %>
+<%= form_with(model: product, class: "space-y-4") do |form| %>
     <% if product.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
-        <ul>
-          <% product.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
+        <div id="error_explanation" class="p-4 mb-4 border border-red-400 text-red-700 bg-red-100 rounded">
+            <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+            <ul class="list-disc pl-5">
+                <% product.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
     <% end %>
-  
+
     <div class="field">
-      <%= form.label :name %>
-      <%= form.text_field :name %>
-    </div>
-  
-    <div class="field">
-      <%= form.label :purchase_date %>
-      <%= form.date_field :purchase_date %>
-    </div>
-  
-    <div class="field">
-      <%= form.label :expiration_date %>
-      <%= form.date_field :expiration_date %>
+        <%= form.label :name, class: "block text-purple-700 text-sm font-bold mb-2" %>
+        <%= form.text_field :name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
 
-  <div class="field">
-    <%= form.label :notify_expiration, '通知を受け取りますか？' %>
-    <%= form.check_box :notify_expiration, checked: product.notify_expiration || true %>
-  </div>
-  
-    <div class="actions">
-      <%= form.submit %>
+    <div class="field">
+        <%= form.label :purchase_date, class: "block text-purple-700 text-sm font-bold mb-2" %>
+        <%= form.date_field :purchase_date, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
     </div>
-  <% end %>
-  
+
+    <div class="field">
+        <%= form.label :expiration_date, class: "block text-purple-700 text-sm font-bold mb-2" %>
+        <%= form.date_field :expiration_date, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+    </div>
+
+    <div class="field">
+        <%= form.label :notify_expiration, '通知を受け取りますか？', class: "block text-purple-700 text-sm font-bold mb-2" %>
+        <%= form.check_box :notify_expiration, { checked: product.notify_expiration || true, class: "rounded text-purple-600" } %>
+    </div>
+
+    <div class="actions">
+        <%= form.submit class: "bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    </div>
+<% end %>

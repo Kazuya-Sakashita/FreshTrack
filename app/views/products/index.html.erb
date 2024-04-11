@@ -1,45 +1,52 @@
-<h1>在庫商品　一覧</h1>
-<h2> 消費期限7日以下の商品数 <%= @soon_expiring_count %> 個</h2>
+<div class="max-w-4xl mx-auto p-6 bg-white rounded shadow-md mt-8">
+    <h1 class="text-2xl font-bold text-purple-700 text-center">在庫商品　一覧</h1>
+    <h2 class="text-lg md:text-xl text-purple-600 text-center mt-4">消費期限7日以下の商品数 <%= @soon_expiring_count %> 個</h2>
 
-  <%= search_form_for @q do |f| %>
-    <%= f.label :name_cont, "商品名で検索:" %>
-    <%= f.search_field :name_cont %>
-    <%= f.submit "検索" %>
-  <% end %><br>
-<%= button_to 'テスト通知', test_notification_products_path, method: :post %><br>
-<table>
-  <thead>
-    <tr>
-      <th>ユーザーメールアドレス</th>
-      <th><%= sort_link @q, :name, t('activerecord.attributes.product.name') %></th>
-      <th><%= sort_link @q, :purchase_date, t('activerecord.attributes.product.purchase_date') %></th>
-      <th><%= sort_link @q, :expiration_date, t('activerecord.attributes.product.expiration_date') %></th>
-      <th>残日数</th>
-      <th>通知</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @products.each do |product| %>
-      <tr class="<%= 'expiration-soon' if (product.expiration_date - Date.today).to_i < 7 %>">
-        <td><%= product.user.email %></td>
-        <td><%= product.name %></td>
-        <td><%= product.purchase_date %></td>
-        <td><%= product.expiration_date %></td>
-        <td><%= product.days_until_expiration %>日</td>
-        <td>
-          <%= button_to (product.notify_expiration ? 'On' : 'Off'), toggle_notify_expiration_product_path(product), method: :patch, data: { "turbo-method": :patch } %>
-        </td>
-        <td><%= link_to 'Show', product %></td>
-        <td><%= link_to 'Edit', edit_product_path(product) %></td>
-        <td><%= link_to 'Destroy', product, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}  %></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+    <div class="mt-4">
+        <%= search_form_for @q, class: "flex flex-col md:flex-row gap-2 justify-center items-end" do |f| %>
+            <%= f.label :name_cont, "商品名で検索:", class: "block text-purple-700" %>
+            <%= f.search_field :name_cont, class: "form-input mt-1 block w-full rounded-md border-purple-300 shadow-sm" %>
+            <%= f.submit "検索", class: "mt-2 md:mt-0 px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50" %>
+        <% end %>
+    </div>
 
-<%= paginate @products %>
+    <%= button_to 'テスト通知', test_notification_products_path, method: :post, class: "mt-4 px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50" %>
 
-<br>
+    <table class="mt-4 w-full text-xs sm:text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-purple-100">
+            <tr>
+                <th class="py-2 px-3">ユーザーメールアドレス</th>
+                <th class="py-2 px-3">商品名</th>
+                <th class="py-2 px-3">購入日</th>
+                <th class="py-2 px-3">消費期限</th>
+                <th class="py-2 px-3">残日数</th>
+                <th class="py-2 px-3">通知</th>
+                <th colspan="3" class="py-2 px-3"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @products.each do |product| %>
+                <tr class="<%= 'bg-purple-100' if (product.expiration_date - Date.today).to_i < 7 %>">
+                    <td class="py-2 px-3"><%= product.user.email %></td>
+                    <td class="py-2 px-3"><%= product.name %></td>
+                    <td class="py-2 px-3"><%= product.purchase_date %></td>
+                    <td class="py-2 px-3"><%= product.expiration_date %></td>
+                    <td class="py-2 px-3"><%= product.days_until_expiration %>日</td>
+                    <td class="py-2 px-3">
+                        <%= button_to (product.notify_expiration ? 'On' : 'Off'), toggle_notify_expiration_product_path(product), method: :patch, class: "px-2 py-1 text-xs sm:text-sm bg-purple-600 text-white font-semibold rounded hover:bg-purple-700" %>
+                    </td>
+                    <td class="py-2 px-3"><%= link_to 'Show', product, class: "text-xs sm:text-sm text-blue-500 hover:text-blue-700" %></td>
+                    <td class="py-2 px-3"><%= link_to 'Edit', edit_product_path(product), class: "text-xs sm:text-sm text-blue-500 hover:text-blue-700" %></td>
+                    <td class="py-2 px-3"><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, class: "text-xs sm:text-sm text-red-500 hover:text-red-700" %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
 
-<%= link_to 'New Product', new_product_path %>
+    <%= paginate @products, class: "mt-4 text-center" %>
+
+    <div class="mt-4 text-center">
+            <%= link_to 'New Product', new_product_path, class: "px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50" %>
+        </div>
+    </div>
+</div>

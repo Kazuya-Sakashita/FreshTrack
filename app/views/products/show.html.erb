@@ -1,19 +1,25 @@
-<h1>Product Details</h1>
+<div class="max-w-md mx-auto p-6 bg-white rounded shadow-md mt-8">
+    <h1 class="text-2xl font-bold text-purple-700 text-center">Product Details</h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+    <div class="mt-4">
+        <p class="text-lg text-gray-700">
+            <strong>Name:</strong>
+            <%= @product.name %>
+        </p>
 
-<p>
-  <strong>Purchase Date:</strong>
-  <%= @product.purchase_date %>
-</p>
+        <p class="text-lg text-gray-700">
+            <strong>Purchase Date:</strong>
+            <%= @product.purchase_date %>
+        </p>
 
-<p>
-  <strong>Expiration Date:</strong>
-  <%= @product.expiration_date %>
-</p>
+        <p class="text-lg text-gray-700">
+            <strong>Expiration Date:</strong>
+            <%= @product.expiration_date %>
+        </p>
+    </div>
 
-<%= link_to 'Edit', edit_product_path(@product) %> |
-<%= link_to 'Back', products_path %>
+    <div class="text-center mt-4">
+        <%= link_to 'Edit', edit_product_path(@product), class: "mr-2 px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50" %>
+        <%= link_to 'Back', products_path, class: "px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50" %>
+    </div>
+</div>
