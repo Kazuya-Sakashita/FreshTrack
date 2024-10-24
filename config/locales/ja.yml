@@ -17,3 +17,16 @@ ja:
               blank: "を入力してください"
             notify_expiration:
               inclusion: "は許可されている値を使用してください"
+  products:
+    create:
+      success: "商品が正常に作成されました。"
+    update:
+      success: "商品が正常に更新されました。"
+    destroy:
+      success: "商品が正常に削除されました。"
+    notifications:
+      updated: "通知設定を更新しました。"
+      sent: "テスト通知を送信しました。"
+    errors:
+      not_found: "プロダクトが見つかりません。"
+      unauthorized: "あなたはこのページにアクセスする権限がありません。"

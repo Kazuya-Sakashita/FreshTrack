@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
       end
 
       it '重複したメールアドレスなら無効な状態であること' do
-        user = create(:user, email: 'test@example.com')
+        create(:user, email: 'test@example.com')
         duplicated_user = build(:user, email: 'test@example.com')
         duplicated_user.valid?
         expect(duplicated_user.errors[:email]).to include('重複しています。')

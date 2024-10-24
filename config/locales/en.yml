@@ -31,3 +31,5 @@
 
 en:
   hello: "Hello world"
+  user_mailer:
+    products_expiring_soon: "Products Expiring Soon!"

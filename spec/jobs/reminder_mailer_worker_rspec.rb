@@ -8,7 +8,7 @@ RSpec.describe ReminderMailerWorker do
 
   describe 'ReminderMailerWorker' do
     context '複数名に単数商品の場合' do
-      it "メールが送信されること" do
+      it 'メールが送信されること' do
         notification_emails = 3
         create_list(:product, notification_emails, expiration_date: 5.days.from_now, notify_expiration: true)
         expect { ReminderMailerWorker.perform_async }.to change { ActionMailer::Base.deliveries.size }.by(notification_emails)
@@ -24,11 +24,11 @@ RSpec.describe ReminderMailerWorker do
         end
       end
 
-      it "各ユーザーにメールが送信されること" do
+      it '各ユーザーにメールが送信されること' do
         expect { ReminderMailerWorker.perform_async }.to change { ActionMailer::Base.deliveries.size }.by(3)
       end
 
-      it "各ユーザーのメールには関連する商品情報のみが含まれていること" do
+      it '各ユーザーのメールには関連する商品情報のみが含まれていること' do
         ReminderMailerWorker.perform_async
         ActionMailer::Base.deliveries.each do |delivery|
           user = users.find { |u| u.email == delivery.to[0] }
@@ -41,10 +41,10 @@ RSpec.describe ReminderMailerWorker do
     end
 
     context '期限が近くない商品の場合' do
-      it "メールは送信されない" do
+      it 'メールは送信されない' do
         create(:product, expiration_date: 8.days.from_now, notify_expiration: true)
         create(:product, expiration_date: 5.days.from_now, notify_expiration: false)
-        expect { ReminderMailerWorker.perform_async }.not_to change { ActionMailer::Base.deliveries.size }
+        expect { ReminderMailerWorker.perform_async }.not_to(change { ActionMailer::Base.deliveries.size })
       end
     end
   end
