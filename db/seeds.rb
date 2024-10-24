@@ -19,8 +19,8 @@
   10.times do |product_number|
     Product.create!(
       name: "Product #{product_number + 1} for User #{user_number + 1}",
-      purchase_date: Date.today - (product_number + 1).days,
-      expiration_date: Date.today + (product_number + 1).months,
+      purchase_date: Time.zone.today - (product_number + 1).days,
+      expiration_date: Time.zone.today + (product_number + 1).months,
       user_id: user.id
     )
   end

@@ -2,8 +2,8 @@ class ReminderMailerWorker
   include Sidekiq::Worker
 
   def perform(user_id = nil)
-    Rails.logger.info "ReminderMailerWorker is performing its job!"
-    
+    Rails.logger.info 'ReminderMailerWorker is performing its job!'
+
     if user_id
       user = User.find(user_id)
       expiring_products = user.products.where('expiration_date <= ?', 7.days.from_now).where(notify_expiration: true)

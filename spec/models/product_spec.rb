@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  let(:user) { create(:user) } 
+  let(:user) { create(:user) }
   let(:product) { build(:product, user: user) }
 
   describe 'バリデーション' do
@@ -16,7 +16,6 @@ RSpec.describe Product, type: :model do
       product.save
       expect(product.errors[:purchase_date]).to include('を入力してください')
     end
-
 
     it '消費期限(expiration_date)  値がない場合にバリデーションエラーが発生すること' do
       product.expiration_date = nil
