@@ -32,12 +32,7 @@ class JobSchedulesController < ApplicationController
 
   def update
     if @job_schedule.update(job_schedule_params)
-      if ScheduleManager.update_schedule_for_user(current_user)
-        redirect_to job_schedule_path(@job_schedule), notice: 'スケジュールが更新されました。'
-      else
-        flash[:alert] = 'スケジュールの更新に失敗しました。'
-        render :edit
-      end
+      redirect_to job_schedule_path, notice: 'スケジュールが更新されました。'
     else
       render :edit
     end
