@@ -363,6 +363,7 @@ DEPENDENCIES
   devise-i18n
   factory_bot_rails
   faker
+  fugit
   importmap-rails
   jbuilder
   kaminari

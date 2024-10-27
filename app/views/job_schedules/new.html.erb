@@ -1,0 +1,43 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold text-purple-700 text-center mb-6">ジョブスケジュールの作成</h1>
+
+    <%= form_with(model: @job_schedule, url: job_schedule_path, local: true) do |form| %>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2">実行時間を選択</label>
+        <input type="time" id="schedule-time"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:shadow-outline" />
+      </div>
+
+      <input type="hidden" name="job_schedule[cron]" id="cron-value" />
+
+      <div class="flex justify-center mt-6">
+        <%= form.submit '保存',
+          class: "save-button bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-lg" %>
+      </div>
+    <% end %>
+
+    <div class="flex justify-center mt-6">
+      <%= link_to '戻る', root_path,
+        class: "text-purple-600 hover:text-purple-800 font-bold" %>
+    </div>
+  </div>
+</div>
+
+<style>
+  .save-button {
+    background-color: #6b46c1 !important; /* Tailwindのbg-purple-600の色 */
+  }
+  .save-button:hover {
+    background-color: #553c9a !important; /* Tailwindのbg-purple-700の色 */
+  }
+</style>
+
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    const time = document.getElementById('schedule-time').value;
+    const [hours, minutes] = time.split(':');
+    const cron = `${minutes} ${hours} * * *`; // 毎日指定された時間に実行
+    document.getElementById('cron-value').value = cron;
+  });
+</script>

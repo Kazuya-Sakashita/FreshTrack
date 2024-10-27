@@ -1,14 +1,17 @@
-# app/jobs/expiration_reminder_job.rb
-
 class ExpirationReminderJob
   include Sidekiq::Worker
 
-  def perform
-    expiring_products = Product.where('expiration_date <= ?', 7.days.from_now)
+  def perform(user_id)
+    user = User.find(user_id)
+    products = user.products.where('expiration_date <= ?', 7.days.from_now)
 
-    # expiring_productsが空でない場合のみメールを送信
-    return if expiring_products.empty?
-
-    UserMailer.expiration_reminder(expiring_products).deliver_now
+    if products.any?
+      UserMailer.expiration_reminder(user, products).deliver_now
+      Rails.logger.info "メールを送信しました: #{user.email} に #{products.size} 件の通知"
+    else
+      Rails.logger.info "通知する製品がありません: #{user.email}"
+    end
+  rescue => e
+    Rails.logger.error "ジョブ実行エラー: #{e.message}"
   end
 end

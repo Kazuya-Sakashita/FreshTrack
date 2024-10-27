@@ -1,10 +1,15 @@
-# config/sidekiq.yml
----
-:queues:
-  - default
+:concurrency: 5 # 同時に実行されるジョブ（タスク）の最大数を5に設定します。CPUやメモリの使用量に応じて適切に調整します。
 
-:scheduler:
-  :schedule:
-    :expiration_reminder_job:
-      cron: '0 7 * * *' # 毎日7時に実行
-      class: 'ReminderMailerWorker'
+:queues: # Sidekiqで処理するジョブのキュー（順番待ちリスト）を定義します。
+  - [default, 5] # "default" という名前のキューを5つの優先度で実行します。
+    # 数字が大きいほど優先度が高く、頻繁に実行されます。
+
+:scheduler: # スケジューラに関する設定を行います。
+  enabled: true # Sidekiqのスケジューラ機能を有効にします。これにより、定期的にジョブを自動実行できます。
+  dynamic: true # スケジュールを動的に変更できるようにします。たとえば、コードの変更なしで新しいスケジュールを追加したり、更新できます。
+  schedule: # 実行するジョブのスケジュールを定義します。
+    check_user_schedules: # 1つのジョブに名前をつけて管理します。この名前でSidekiq内で認識されます。
+      cron:
+        "0 0 * * *" # Cron形式のスケジュールです。毎日0時にジョブが実行されます。
+        # 形式: "分 時 日 月 曜日"  ここでは毎日午前0時に実行される設定です。
+      class: "CheckUserSchedulesJob" # 実行するジョブのクラス名を指定します。ここでは `CheckUserSchedulesJob` が毎日0時に実行されます。
