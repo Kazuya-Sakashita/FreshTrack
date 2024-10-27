@@ -89,3 +89,4 @@ gem 'sidekiq-cron'
 gem 'sidekiq-scheduler'
 
 gem 'tailwindcss-rails', '~> 2.3'
+gem 'fugit'

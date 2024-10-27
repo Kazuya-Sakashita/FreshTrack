@@ -1,0 +1,18 @@
+<h1 class="text-2xl font-bold text-purple-700 text-center">ジョブスケジュールの詳細</h1>
+
+<table class="table-auto w-full mt-4">
+  <tr>
+    <th class="px-4 py-2">Cron</th>
+    <td class="border px-4 py-2"><%= @job_schedule.cron %></td>
+  </tr>
+  <tr>
+    <th class="px-4 py-2">作成日</th>
+    <td class="border px-4 py-2"><%= @job_schedule.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+  </tr>
+  <tr>
+    <th class="px-4 py-2">更新日</th>
+    <td class="border px-4 py-2"><%= @job_schedule.updated_at.strftime('%Y-%m-%d %H:%M') %></td>
+  </tr>
+</table>
+
+<%= link_to '編集', edit_job_schedule_path(@job_schedule), class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 inline-block" %>
